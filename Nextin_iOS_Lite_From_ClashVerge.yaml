@@ -11,91 +11,91 @@ rule-providers:
     type: http
     behavior: domain
     url: "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/reject.txt"
-    path: "./ruleset/reject.yaml"
+    path: reject.yaml
     interval: 86400
 
   direct:
     type: http
     behavior: domain
     url: "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/direct.txt"
-    path: "./ruleset/direct.yaml"
+    path: direct.yaml
     interval: 86400
 
   proxy:
     type: http
     behavior: domain
     url: "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/proxy.txt"
-    path: "./ruleset/proxy.yaml"
+    path: proxy.yaml
     interval: 86400
 
   Global:
     type: http
     behavior: classical
     url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Global/Global.yaml"
-    path: "./ruleset/Global.yaml"
+    path: Global.yaml
     interval: 86400
 
   WeChat:
     type: http
     behavior: classical
     url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/WeChat/WeChat.yaml"
-    path: "./ruleset/WeChat.yaml"
+    path: WeChat.yaml
     interval: 86400
 
   OpenAI:
     type: http
     behavior: classical
     url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.yaml"
-    path: "./ruleset/OpenAI.yaml"
+    path: OpenAI.yaml
     interval: 86400
 
   Claude:
     type: http
     behavior: classical
     url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Claude/Claude.yaml"
-    path: "./ruleset/Claude.yaml"
+    path: Claude.yaml
     interval: 86400
 
   Gemini:
     type: http
     behavior: classical
     url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Gemini/Gemini.yaml"
-    path: "./ruleset/Gemini.yaml"
+    path: Gemini.yaml
     interval: 86400
 
   Copilot:
     type: http
     behavior: classical
     url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Copilot/Copilot.yaml"
-    path: "./ruleset/Copilot.yaml"
+    path: Copilot.yaml
     interval: 86400
 
   Twitter:
     type: http
     behavior: classical
     url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Twitter/Twitter.yaml"
-    path: "./ruleset/Twitter.yaml"
+    path: Twitter.yaml
     interval: 86400
 
   GitHub:
     type: http
     behavior: classical
     url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GitHub/GitHub.yaml"
-    path: "./ruleset/GitHub.yaml"
+    path: GitHub.yaml
     interval: 86400
 
   Notion:
     type: http
     behavior: classical
     url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Notion/Notion.yaml"
-    path: "./ruleset/Notion.yaml"
+    path: Notion.yaml
     interval: 86400
 
   ChinaMax:
     type: http
     behavior: classical
     url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax.yaml"
-    path: "./ruleset/ChinaMax.yaml"
+    path: ChinaMax.yaml
     interval: 86400
 
 proxy-groups:
