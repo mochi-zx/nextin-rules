@@ -136,9 +136,9 @@ proxy-groups:
 
   - name: 日美节点
     type: url-test
-    proxies:
-      - 美国节点
-      - 日本节点
+    include-all: true
+    filter: "(?i)(美国|美國|United States|\bUS\b|\bUSA\b|日本|Japan|\bJP\b|JPN)"
+    exclude-filter: "(?i)(5\\.[1-9][0-9]*\\s*x|[6-9](\\.\\d+)?\\s*x|[1-9][0-9]+(\\.\\d+)?\\s*x)"
     url: "https://www.gstatic.com/generate_204"
     interval: 300
     tolerance: 80
