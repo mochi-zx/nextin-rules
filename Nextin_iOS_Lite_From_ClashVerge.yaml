@@ -110,7 +110,6 @@ proxy-groups:
       - 日本节点
       - 韩国节点
       - 港澳节点
-      - 10x+节点
       - DIRECT
 
   # OpenAI / Anthropic 强制使用美国节点，不经过 国外流量。
@@ -208,11 +207,11 @@ rules:
   - RULE-SET,Claude,美国节点
 
   # 其他国外服务 -> 国外流量，默认走 日美节点；可手动切韩国/港澳/10x+
-  - RULE-SET,Gemini,国外流量
-  - RULE-SET,Copilot,国外流量
-  - RULE-SET,GitHub,国外流量
-  - RULE-SET,Twitter,国外流量
-  - RULE-SET,Notion,国外流量
+  - RULE-SET,Gemini,日美节点
+  - RULE-SET,Copilot,日美节点
+  - RULE-SET,GitHub,日美节点
+  - RULE-SET,Twitter,日美节点
+  - RULE-SET,Notion,日美节点
   - RULE-SET,proxy,国外流量
   - RULE-SET,Global,国外流量
 
