@@ -1,0 +1,228 @@
+# Nextin iOS 轻量版订阅模板覆写
+# 基于 Mac ClashVerge 配置改造：
+# - OpenAI / ChatGPT / Codex / Anthropic / Claude -> 美国节点
+# - 其他国外代理流量 -> 国外流量，默认选中 日美节点
+# - 国内 / 公司内网 / 微信 -> DIRECT
+# - 韩国 / 港澳 / 10x+ 仅作为手动备用，不参与默认日美自动
+# - 已删除 PROCESS-NAME 规则，iOS 上主要靠域名和规则集分流
+
+rule-providers:
+  reject:
+    type: http
+    behavior: domain
+    url: "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/reject.txt"
+    path: "./ruleset/reject.yaml"
+    interval: 86400
+
+  direct:
+    type: http
+    behavior: domain
+    url: "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/direct.txt"
+    path: "./ruleset/direct.yaml"
+    interval: 86400
+
+  proxy:
+    type: http
+    behavior: domain
+    url: "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/proxy.txt"
+    path: "./ruleset/proxy.yaml"
+    interval: 86400
+
+  Global:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Global/Global.yaml"
+    path: "./ruleset/Global.yaml"
+    interval: 86400
+
+  WeChat:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/WeChat/WeChat.yaml"
+    path: "./ruleset/WeChat.yaml"
+    interval: 86400
+
+  OpenAI:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.yaml"
+    path: "./ruleset/OpenAI.yaml"
+    interval: 86400
+
+  Claude:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Claude/Claude.yaml"
+    path: "./ruleset/Claude.yaml"
+    interval: 86400
+
+  Gemini:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Gemini/Gemini.yaml"
+    path: "./ruleset/Gemini.yaml"
+    interval: 86400
+
+  Copilot:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Copilot/Copilot.yaml"
+    path: "./ruleset/Copilot.yaml"
+    interval: 86400
+
+  Twitter:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Twitter/Twitter.yaml"
+    path: "./ruleset/Twitter.yaml"
+    interval: 86400
+
+  GitHub:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GitHub/GitHub.yaml"
+    path: "./ruleset/GitHub.yaml"
+    interval: 86400
+
+  Notion:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Notion/Notion.yaml"
+    path: "./ruleset/Notion.yaml"
+    interval: 86400
+
+  ChinaMax:
+    type: http
+    behavior: classical
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax.yaml"
+    path: "./ruleset/ChinaMax.yaml"
+    interval: 86400
+
+proxy-groups:
+  # 所有普通国外代理规则都指向这个组。
+  # 默认第一项是 日美节点，所以正常情况下只会走美国 / 日本。
+  # 需要临时切韩国、港澳、10x+ 时，在 Nextin 中手动切换这个组即可。
+  - name: 国外流量
+    type: select
+    proxies:
+      - 日美节点
+      - 美国节点
+      - 日本节点
+      - 韩国节点
+      - 港澳节点
+      - 10x+节点
+      - DIRECT
+
+  # OpenAI / Anthropic 强制使用美国节点，不经过 国外流量。
+  - name: 美国节点
+    type: url-test
+    include-all: true
+    filter: "(?i)(美国|美國|United States|\\bUS\\b|\\bUSA\\b)"
+    exclude-filter: "(?i)(5\\.[1-9][0-9]*\\s*x|[6-9](\\.\\d+)?\\s*x|[1-9][0-9]+(\\.\\d+)?\\s*x)"
+    url: "https://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+  - name: 日本节点
+    type: url-test
+    include-all: true
+    filter: "(?i)(日本|Japan|\\bJP\\b|JPN)"
+    exclude-filter: "(?i)(5\\.[1-9][0-9]*\\s*x|[6-9](\\.\\d+)?\\s*x|[1-9][0-9]+(\\.\\d+)?\\s*x)"
+    url: "https://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+  - name: 日美节点
+    type: url-test
+    proxies:
+      - 美国节点
+      - 日本节点
+    url: "https://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+  # 下面三个组只作为备用，不会被默认日美节点自动使用。
+  - name: 韩国节点
+    type: url-test
+    include-all: true
+    filter: "(?i)(韩国|韓國|南韩|南韓|Korea|\\bKR\\b|KOR)"
+    exclude-filter: "(?i)(5\\.[1-9][0-9]*\\s*x|[6-9](\\.\\d+)?\\s*x|[1-9][0-9]+(\\.\\d+)?\\s*x)"
+    url: "https://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+  - name: 港澳节点
+    type: url-test
+    include-all: true
+    filter: "(?i)(香港|Hong Kong|\\bHK\\b|HKG|澳门|澳門|Macao|Macau|\\bMO\\b)"
+    exclude-filter: "(?i)(5\\.[1-9][0-9]*\\s*x|[6-9](\\.\\d+)?\\s*x|[1-9][0-9]+(\\.\\d+)?\\s*x)"
+    url: "https://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+  - name: 10x+节点
+    type: url-test
+    include-all: true
+    filter: "(?i)(1[0-9](\\.\\d+)?\\s*x|[2-9][0-9](\\.\\d+)?\\s*x|[1-9][0-9]{2,}(\\.\\d+)?\\s*x|10x|20x|30x|50x|100x)"
+    url: "https://www.gstatic.com/generate_204"
+    interval: 300
+    tolerance: 80
+    lazy: true
+
+rules:
+  # 微信直连：iOS 不使用 PROCESS-NAME，只保留规则集
+  - RULE-SET,WeChat,DIRECT
+
+  # OpenAI / ChatGPT / Codex / iOS ChatGPT App -> 美国节点
+  - DOMAIN,ios.chat.openai.com,美国节点
+  - DOMAIN,chat.openai.com,美国节点
+  - DOMAIN,ws.chatgpt.com,美国节点
+  - DOMAIN,auth0.openai.com,美国节点
+  - DOMAIN,setup.auth.openai.com,美国节点
+  - DOMAIN,challenges.cloudflare.com,美国节点
+  - DOMAIN-SUFFIX,chatgpt.com,美国节点
+  - DOMAIN-SUFFIX,openai.com,美国节点
+  - DOMAIN-SUFFIX,oaistatic.com,美国节点
+  - DOMAIN-SUFFIX,oaiusercontent.com,美国节点
+  - DOMAIN-SUFFIX,oaistatsig.com,美国节点
+  - DOMAIN-SUFFIX,openaimerge.com,美国节点
+  - DOMAIN-SUFFIX,openaiapi-site.azureedge.net,美国节点
+  - DOMAIN-SUFFIX,identrust.com,美国节点
+  - DOMAIN-SUFFIX,workos.com,美国节点
+  - DOMAIN-SUFFIX,workoscdn.com,美国节点
+  - DOMAIN-KEYWORD,openai,美国节点
+  - DOMAIN-KEYWORD,chatgpt,美国节点
+  - RULE-SET,OpenAI,美国节点
+
+  # Anthropic / Claude -> 美国节点
+  - DOMAIN-SUFFIX,anthropic.com,美国节点
+  - DOMAIN-SUFFIX,anthropicusercontent.com,美国节点
+  - DOMAIN-SUFFIX,claude.ai,美国节点
+  - DOMAIN-SUFFIX,claude.com,美国节点
+  - DOMAIN-KEYWORD,anthropic,美国节点
+  - RULE-SET,Claude,美国节点
+
+  # 其他国外服务 -> 国外流量，默认走 日美节点；可手动切韩国/港澳/10x+
+  - RULE-SET,Gemini,国外流量
+  - RULE-SET,Copilot,国外流量
+  - RULE-SET,GitHub,国外流量
+  - RULE-SET,Twitter,国外流量
+  - RULE-SET,Notion,国外流量
+  - RULE-SET,proxy,国外流量
+  - RULE-SET,Global,国外流量
+
+  # 广告 / 拦截
+  - RULE-SET,reject,REJECT
+
+  # 国内直连
+  - RULE-SET,ChinaMax,DIRECT
+  - RULE-SET,direct,DIRECT
+  - GEOIP,CN,DIRECT
+
+  # 未命中国内规则的流量默认按国外处理，走 国外流量，默认日美节点
+  - MATCH,国外流量
